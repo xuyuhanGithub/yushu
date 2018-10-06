@@ -82,10 +82,12 @@ def reject_drift(did):
     with db.auto_commit():
         drift = Drift.query.filter(Gift.uid == current_user.id,
                                    Drift.id == did).first_or_404()
-        drift.pending = PendingStatus.reject
+        drift.pending = PendingStatus.Reject
         # 当收到一个请求时，书籍不会处于锁定状态, 也就是说一个礼物可以收到多个请求
         # gift = Gift.query.filter_by(id=drift.gift_id, status=1).first_or_404()
         # gift.launched = False
+        requester=User.query.get_or_404(drift.requester_id)
+        requester.beans+=1
     return redirect(url_for('web.pending'))
 
 
