@@ -121,7 +121,7 @@ def mailed_drift(did):
         # requester_id = current_user.id 这个条件可以防止超权
         drift = Drift.query.filter_by(
             gifter_id=current_user.id, id=did).first_or_404()
-        drift.pending = PendingStatus.success
+        drift.pending = PendingStatus.Success
         current_user.beans += current_app.config['BEANS_EVERY_DRIFT']
         gift = Gift.query.filter_by(id=drift.gift_id).first_or_404()
         gift.launched = True
